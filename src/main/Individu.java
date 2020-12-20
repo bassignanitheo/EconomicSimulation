@@ -16,7 +16,7 @@ public class Individu {
         return richesse;
     }
 
-    public void setRichesse(int richesse) {
+    public void setRichesse(double richesse) {
         this.richesse = richesse;
     }
 }

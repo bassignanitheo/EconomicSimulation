@@ -5,10 +5,12 @@ import java.util.*;
 public class Population{
     private ArrayList<Individu> individuArrayList;
     private int populationSize;
+    private TransactionType transactionType;
 
-    public Population(int populationSize) {
+    public Population(int populationSize, TransactionType transactionType) {
         this.individuArrayList = new ArrayList<>();
         this.populationSize = populationSize;
+        this.transactionType = transactionType;
         for (int i = 0; i < populationSize; i++) {
             this.individuArrayList.add(new Individu());
         }
@@ -20,13 +22,8 @@ public class Population{
         return this.individuArrayList.get(random.nextInt(this.populationSize));
     }
 
-//    Juste une fonctio de test, A SUPPRIMER QUAND ON A PLUS BESOIN
-    public ArrayList<Double> getTenRichesse(){
-        ArrayList<Double> tmp = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            tmp.add(this.individuArrayList.get(i).getRichesse());
-        }
-        return tmp;
+    public Individu getIndividu(int index){
+        return this.individuArrayList.get(index);
     }
 
     private void sortPopulationByWealth(){
@@ -34,6 +31,7 @@ public class Population{
     }
 
     public double calculateGiniCoefficient() {
+        sortPopulationByWealth();
         ArrayList<Double> values = new ArrayList<>();
         for (int i = 0; i < populationSize ; i++) {
             values.add(this.individuArrayList.get(i).getRichesse());
@@ -44,4 +42,11 @@ public class Population{
         return sumOfDifference / (2 * values.size() * values.size() * mean);
     }
 
+    public void executeTransactionType(){
+        this.transactionType.doTransaction(this);
+    }
+
+    public int getPopulationSize() {
+        return populationSize;
+    }
 }
