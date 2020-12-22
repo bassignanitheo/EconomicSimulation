@@ -5,19 +5,17 @@ import java.util.*;
 public class Population{
     private ArrayList<Individu> individuArrayList;
     private int populationSize;
-    private TransactionType transactionType;
 
-    public Population(int populationSize, TransactionType transactionType) {
+    public Population(int populationSize, IWealthDistribution wealthDistribution) {
         this.individuArrayList = new ArrayList<>();
         this.populationSize = populationSize;
-        this.transactionType = transactionType;
         for (int i = 0; i < populationSize; i++) {
-            this.individuArrayList.add(new Individu());
+            this.individuArrayList.add(new Individu(wealthDistribution));
         }
         sortPopulationByWealth();
     }
 
-    public Individu getOneIndividuRandomly(){
+    public Individu getOneIndividuRandomly() {
         Random random = new Random();
         return this.individuArrayList.get(random.nextInt(this.populationSize));
     }
@@ -26,15 +24,15 @@ public class Population{
         return this.individuArrayList.get(index);
     }
 
-    private void sortPopulationByWealth(){
-        this.individuArrayList.sort(Comparator.comparingDouble(Individu::getRichesse));
+    private void sortPopulationByWealth() {
+        this.individuArrayList.sort(Comparator.comparingDouble(Individu::getWealth));
     }
 
     public double calculateGiniCoefficient() {
         sortPopulationByWealth();
         ArrayList<Double> values = new ArrayList<>();
         for (int i = 0; i < populationSize ; i++) {
-            values.add(this.individuArrayList.get(i).getRichesse());
+            values.add(this.individuArrayList.get(i).getWealth());
         }
         double sumOfDifference = values.stream()
                 .flatMapToDouble(v1 -> values.stream().mapToDouble(v2 -> Math.abs(v1 - v2))).sum();
@@ -42,8 +40,7 @@ public class Population{
         return sumOfDifference / (2 * values.size() * values.size() * mean);
     }
 
-    public void executeTransactionType(){
-        this.transactionType.doTransaction(this);
+    public void executeTransactionType() {
     }
 
     public int getPopulationSize() {

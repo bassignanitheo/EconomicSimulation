@@ -1,22 +1,18 @@
 package main;
 
-import java.util.Random;
-
 public class Individu {
-    private double richesse;
+    private double wealth;
 
-    public Individu() {
-        Random random = new Random();
-        int mean = 100;
-        int standardDeviation = 20;
-        this.richesse = random.nextGaussian() * standardDeviation + mean;
+    public Individu(IWealthDistribution wealthDistribution)
+    {
+        this.wealth = wealthDistribution.getWealth(20, 100 );
     }
 
-    public double getRichesse() {
-        return richesse;
+    public double getWealth() {
+        return wealth;
     }
 
-    public void setRichesse(double richesse) {
-        this.richesse = richesse;
+    public void setWealth(double wealth) {
+        this.wealth = wealth;
     }
 }

@@ -1,22 +1,15 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.Random;
 
-public class IntegralTransaction implements TransactionType {
+public class IntegralTransaction implements ITransaction {
     @Override
-    public void doTransaction(Population population) {
-        Individu individu1 = population.getOneIndividuRandomly();
-        Individu individu2 = population.getOneIndividuRandomly();
-
-        double potCommun = individu1.getRichesse() + individu2.getRichesse();
+    public void doTransaction( ArrayList<Individu> individus) {
+        double potCommun = individus.get(0).getWealth() + individus.get(1).getWealth();
         Random random = new Random();
-        if (random.nextInt(2) == 0){
-            individu1.setRichesse(potCommun);
-            individu2.setRichesse(0);
-        }
-        else {
-            individu1.setRichesse(0);
-            individu2.setRichesse(potCommun);
-        }
+        int idx = random.nextInt(2);
+        individus.get(idx).setWealth(potCommun);
+        individus.get(1 - idx).setWealth(0);
     }
 }
